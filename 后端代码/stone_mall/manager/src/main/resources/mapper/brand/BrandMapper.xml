@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.manager.mapper.BrandMapper">
+    <sql id="column">id,name,logo,create_time,update_time,is_deleted </sql>
+    <resultMap id="brand" type="com.stone.model.entity.product.Brand" autoMapping="true"/>
+    <resultMap id="categoryBrand" type="com.stone.model.entity.product.CategoryBrand" autoMapping="true"/>
+    <select id="findPage" resultMap="brand">
+        select <include refid="column"/> from brand where is_deleted = 0 order by id desc
+    </select>
+    <insert id="save">
+        insert into brand (<include refid="column"/>) values (
+            #{id},
+            #{name},
+            #{logo},
+            now(),
+            now(),
+            0
+        )
+    </insert>
+    <update id="update">
+        update brand set
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="logo != null and logo != ''">
+            logo = #{logo},
+        </if>
+        is_deleted = 0
+        where id = #{id}
+    </update>
+    <update id="removeById">
+        update brand set is_deleted = 1 where id = #{id}
+    </update>
+    <select id="categoryBrandList" resultMap="categoryBrand">
+        select cb.*, c.name category_name , b.name brand_name, b.logo from category_brand cb inner join category c on cb.category_id = c.id
+        inner join brand b on cb.brand_id = b.id
+        <where>
+            <if test="brandId !=null and brandId != ''">
+                and cb.brand_id = #{brandId}
+            </if>
+            <if test="categoryId !=null and categoryId != ''">
+                and cb.category_id = #{categoryId}
+            </if>
+            and cb.is_deleted = 0
+            and b.is_deleted = 0
+            and c.is_deleted = 0
+        </where>
+            order by cb.id desc
+    </select>
+    <insert id="saveCategoryBrand">
+        insert into category_brand values (
+            #{id},
+            #{brandId},
+            #{categoryId},
+            now(),
+            now(),
+            0
+        )
+    </insert>
+    <select id="findBrandByCategoryId" resultMap="brand">
+        select b.* from category_brand cb
+        inner join brand b on b.id = cb.brand_id
+        where cb.category_id = #{categoryId} and cb.is_deleted = 0 and b.is_deleted = 0
+    </select>
+</mapper>

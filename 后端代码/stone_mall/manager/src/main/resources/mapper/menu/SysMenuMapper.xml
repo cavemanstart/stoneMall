@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.manager.mapper.SysMenuMapper">
+    <sql id="column">
+        id,parent_id,title,component,sort_value,status,create_time,update_time,is_deleted
+    </sql>
+    <select id="findAll" resultType="com.stone.model.entity.system.SysMenu">
+        select <include refid="column"/> from sys_menu where is_deleted = 0 order by sort_value
+    </select>
+    <!--添加-->
+    <insert id="save">
+        insert into sys_menu (
+            <if test="parentId != null and parentId != ''">
+                parent_id ,
+            </if>
+            <if test="title != null and title != ''">
+                title ,
+            </if>
+            <if test="component != null and component != ''">
+                component ,
+            </if>
+            <if test="sortValue != null">
+                sort_value ,
+            </if>
+            <if test="status != null">
+                status ,
+            </if>
+            update_time
+        ) values (
+            <if test="parentId != null and parentId != ''">
+                #{parentId},
+            </if>
+            <if test="title != null and title != ''">
+                #{title},
+            </if>
+            <if test="component != null and component != ''">
+                #{component},
+            </if>
+            <if test="sortValue != null">
+                #{sortValue},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+                now()
+        )
+    </insert>
+    <!--修改-->
+    <update id="update" >
+        update sys_menu set
+        <if test="parentId != null and parentId != ''">
+            parent_id = #{parentId},
+        </if>
+        <if test="title != null and title != ''">
+            title = #{title},
+        </if>
+        <if test="component != null and component != ''">
+            component = #{component},
+        </if>
+        <if test="sortValue != null">
+            sort_value = #{sortValue},
+        </if>
+        <if test="status != null">
+            status = #{status},
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+    <update id="removeById">
+        update sys_menu set is_deleted = 1 where id = #{id}
+    </update>
+    <select id="countMenuChildren" resultType="int">
+        select count(id) from sys_menu where parent_id = #{id} and is_deleted = 0
+    </select>
+    <select id="findMenuIdListByRoleId" resultType="long">
+        select menu_id from sys_role_menu where role_id = #{roleId} and is_deleted = 0 and is_half = 0
+    </select>
+    <update id="removeMenuByRoleId">
+        update sys_role_menu set is_deleted = 1 where role_id = #{roleId}
+    </update>
+    <insert id="doAssign">
+        insert into sys_role_menu (role_id, menu_id,is_deleted,is_half)
+            values 
+        <foreach collection="menuIdList" item="item" separator=",">
+            (#{roleId},#{item.id},0,#{item.isHalf})
+        </foreach>
+    </insert>
+    <select id="userMenu" resultType="com.stone.model.entity.system.SysMenu">
+        select distinct sm.* from sys_menu sm
+            inner join sys_role_menu srm on sm.id = srm.menu_id
+            inner join sys_user_role sur on srm.role_id = sur.role_id
+            where sur.user_id = #{id}
+            and sm.is_deleted = 0 and srm.is_deleted = 0 and sur.is_deleted = 0
+    </select>
+    <update id="updateIsHalf">
+        update sys_role_menu set is_half = 1
+        where menu_id = #{parentId}
+    </update>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.manager.mapper.SysUserMapper">
+    <sql id="columns">
+        id,username,password,name,phone,avatar,description,status,create_time,update_time,is_deleted
+    </sql>
+    <select id="getUserByUsername" resultType="com.stone.model.entity.system.SysUser">
+        SELECT <include refid="columns"/> from sys_user where username = #{username} and is_deleted = 0
+    </select>
+    <select id="getList" resultType="com.stone.model.entity.system.SysUser">
+        select <include refid="columns"/> from sys_user
+                <where>
+                    <if test="userDto.keyword!=null and userDto.keyword !='' ">
+                        and  username or name
+                        like concat('%',#{userDto.keyword},'%')
+                    </if>
+                    <if test="userDto.createTimeBegin !=null and userDto.createTimeBegin!='' ">
+                        and create_time &gt;= #{userDto.createTimeBegin}
+                    </if>
+                    <if test="userDto.createTimeEnd !=null and userDto.createTimeEnd!='' ">
+                        and create_time &lt;= #{userDto.createTimeEnd}
+                    </if>
+                    and is_deleted = 0
+                </where>
+                order by create_time
+    </select>
+
+    <insert id="saveUser">
+        insert into sys_user (
+            id,
+            username,
+            password,
+            name,
+            phone,
+            avatar,
+            description,
+            status
+        ) values (
+                     #{id},
+                     #{userName},
+                     #{password},
+                     #{name},
+                     #{phone},
+                     #{avatar},
+                     #{description},
+                     #{status}
+                 )
+    </insert>
+    <update id="update">
+        update sys_user set
+        <if test="userName != null and userName != ''">
+            username = #{userName},
+        </if>
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{phone},
+        </if>
+        <if test="description != null and description != ''">
+            description = #{description},
+        </if>
+        <if test="avatar != null and avatar != ''">
+            avatar = #{avatar},
+        </if>
+        update_time =  now()
+        where
+        id = #{id}
+    </update>
+
+    <update id="deleteById">
+        update sys_user set is_deleted = 1 where id = #{id}
+    </update>
+    <update id="removeByUserId">
+        update sys_user_role set is_deleted = 1
+            where user_id = #{userId}
+    </update>
+    <insert id="assign">
+        insert into sys_user_role (user_id, role_id) values (#{userId},#{roleId})
+    </insert>
+</mapper>

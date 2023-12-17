@@ -1,0 +1,24 @@
+server:
+  port: 8511
+
+spring:
+  data:
+    redis:
+      host: 192.168.80.142
+      port: 6379
+  application:
+    name: service-product
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.80.142:8848
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.80.142:3307/cavemanpick?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:/mapper/*/*.xml

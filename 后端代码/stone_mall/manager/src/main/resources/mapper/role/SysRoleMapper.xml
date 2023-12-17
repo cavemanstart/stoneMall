@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.stone.manager.mapper.SysRoleMapper">
+    <sql id="columns">
+        id,role_name,role_code,description,create_time,update_time,is_deleted
+    </sql>
+    <select id="findPage" resultType="com.stone.model.entity.system.SysRole" >
+        select <include refid="columns"/> from sys_role
+            <where>
+                <if test="sysRoleDto.roleName!=null and sysRoleDto.roleName!=''">
+                    and role_name like concat('%',#{sysRoleDto.roleName},'%')
+                </if>
+                and is_deleted = 0
+            </where>
+            order by update_time desc
+    </select>
+    <insert id="saveRole">
+        insert into sys_role (role_name, role_code) values (#{sysRole.roleName}, #{sysRole.roleCode})
+    </insert>
+    <update id="update">
+        update sys_role set
+            <if test="sysRole.roleName!=null and sysRole.roleName!=''">
+                role_name = #{sysRole.roleName},
+            </if>
+            <if test="sysRole.roleCode!=null and sysRole.roleCode!=''">
+                role_code = #{sysRole.roleCode},
+            </if>
+            update_time =  now()
+            where id = #{sysRole.id}
+    </update>
+    <update id="deleteById">
+        update sys_role set is_deleted = 1 where id = #{roleId}
+    </update>
+    <select id="getAll" resultType="com.stone.model.entity.system.SysRole">
+        select <include refid="columns"/> from sys_role where is_deleted = 0
+    </select>
+    <select id="getRoleByUserId" resultType="java.lang.Long">
+        select role_id from sys_user_role
+            where user_id = #{userId} and is_deleted = 0
+    </select>
+</mapper>

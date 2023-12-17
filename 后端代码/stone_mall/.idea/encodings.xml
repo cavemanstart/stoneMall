@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/common/common-logs/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/common-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/common-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/common-util/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/common-util/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/manager/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/manager/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/model/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-client/service-cart-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-client/service-order-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-client/service-product-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-client/service-user-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-cart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-pay/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/service-user/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
